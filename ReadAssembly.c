@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
         }
         i++;//เช็คบรรทัดถัดไป
     }
-
+    // displayTable();
     /* this is how to rewind the file ptr so that you start reading from the beginning of the file */
     rewind(inFilePtr); //กลับไปเริ่มอ่านไฟล์ inFilePtr ใหม่
     bool checkUndefine;
@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
                     if(hashArray[j] != NULL){ //เช็คก่อนว่า hashArray[j] != Null
                         if(!strcmp(arg2, hashArray[j]->nameLabel)){ //เช็คว่า arg2(label) ตรงกับ nameLabel ใน hashArray[j]
                             if(now > hashArray[j]->addr){ //ถ้าบรรทัด address ปัจจุบัน มากกว่า address ของ label
-                                twoCom = (1 << 16) + (~(hashArray[j]->addr+1)+1);
+                                twoCom = (1 << 16) + (~(now-hashArray[j]->addr+1)+1);
                                 dex |= twoCom;
                             }else{ //ถ้าบรรทัด address ปัจจุบัน น้อยกว่า address ของ label
                                 dex |= hashArray[j]->addr << 0;

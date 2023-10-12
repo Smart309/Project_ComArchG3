@@ -150,7 +150,7 @@ void Nand(stateType *NandPtr, int i){
     int rs = (NandPtr->mem[i] >> 19) & 0x7; // rs = ค่าใน RegA
     int rt = (NandPtr->mem[i] >> 16) & 0x7; // rt = ค่าใน RegB
     int rd = (NandPtr->mem[i]) & 0x7; //rd = ค่าใน destReg
-    int sum = ~(rs & rt);
+    int sum = !(NandPtr->reg[rs] & NandPtr->reg[rt]);
     NandPtr->reg[rd] = sum; //นำคำตอบเก็บใน destReg
 }
 void LW(stateType *LWPtr, int i){
