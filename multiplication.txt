@@ -1,29 +1,26 @@
-    lw 0 1 mcand   โหลดค่าจาก "mcand" ลง R2
-    lw 0 2 mplier  โหลดค่าจาก "mplier" ลง R3
-    lw 0 4 one     โหลดค่า 1 ลง R5
-    lw 0 6 neg_one โหลดค่า -1 ลง R7
-    add 0 0 0      ;ตั้งค่า R0 เป็น 0  (ผลลัพธ์)
-    add 3 0 0      ตั้งค่า R0 เป็น 0  (สำหรับการเช็ค Multiplier)
-    add 5 0 0      ตั้งค่า R4 เป็น 0 ( เช็ค stack pointer)
-multiply    add 0 1 0     บวกค่าใน R2 เข้ากับ R0 (ผลลัพธ์)
-    add 3 4 0     คูณ R4 ด้วย 0 (ซ้ายเลื่อนการเช็ค)
-    add 2 2 6     ลบ 1 จาก R3 (R3 = R3 - R7)
-    beq 2 0 end   ถ้า R12 เป็น 0 ให้จบการทำงาน
-    beq 3 0 shift_left  ถ้า R11 เป็น 0 (ตรวจสอบค่าทางซ้ายของ Multiplier) ให้ไปที่ตรง shift_left
-    jalr 7 multiply กระโดดกลับไปยัง multiply และส่ง return address ไปยัง R13
-shift_left  add 0 0 1     การบวกค่าตัวมันเองคือการซ้ายเลื่อน (shift left)
-    add 3 3 6    ลบ 1 จาก R11 (R11 = R11 - R7)
-    beq 3 0 shift_right  ถ้า R11 เป็น 0 (ตรวจสอบค่าทางซ้ายของ Multiplier) ให้ไปที่ตรง shift_right
-    jalr 7 multiply กระโดดกลับไปยัง multiply และส่ง return address ไปยัง R13
-shift_right add 3 3 4    บวก 1 กับ R11 (R11 = R11 + R5)
-    noop            คำสั่ง No operation (ไม่มีการเปลี่ยนแปลงสถานะ)
-    beq 3 0 end   ถ้า R11 เป็น 0 ให้จบการทำงาน
-    jalr 7 multiply กระโดดกลับไปยัง multiply และส่ง return address ไปยัง R13
-end add 0 1 0      บันทึกผลลัพธ์ที่อยู่ใน R2 ลงใน "result"
-    halt
-mcand .fill 32766   ค่าตัวตั้ง (Multiplicand)
-mplier .fill 10383  ค่าตัวหาร (Multiplier)
-result .fill 0      ค่าผลลัพธ์ (Result)
-one .fill 1          ค่า 1
-neg_one .fill -1     ค่า -1
-
+        lw 0 1 begin_result
+        lw 0 2 mcand
+        lw 0 3 mer
+        lw 0 4 pos1
+        beq 0 2 14
+        beq 0 3 13
+multiply nand 3 4 6
+        beq 0 6 2
+        beq 0 0 3
+zero    noop
+        add 2 1 1
+update  noop
+        add  2 2 2
+        add 4 4 4
+        lw 0 5 checkExit
+        beq 5 4 2
+        beq 0 0 multiply
+        noop
+exit    halt
+mcand   .fill 32766
+mer     .fill 10383
+checkExit .fill 32768
+pos1    .fill 1
+neg1    .fill -1
+begin_result .fill 0
+stack   .fill 0
