@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
                                 twoCom = (1 << 16) + (~(now-hashArray[j]->addr+1)+1);
                                 dex |= twoCom;
                             }else{ //ถ้าบรรทัด address ปัจจุบัน น้อยกว่า address ของ label
-                                dex |= hashArray[j]->addr << 0;
+                                dex |= hashArray[j]->addr-now-1 << 0;
                             }
                             checkUndefine = true; //รู้จัก label
                             break;
