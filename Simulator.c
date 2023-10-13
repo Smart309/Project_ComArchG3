@@ -54,33 +54,11 @@ int main(int argc, char *argv[])
     
     state.pc = 0; //set program counter = 0
     int count = 0; // สร้างตัวแปร count เพื่อใช้นับ instructions executed
-    char input[100] = "y\n"; //สร้างตัวแปร input ไว้รับ input 
     for(int i = 0; 1 ; i++){ //สร้าง loop เพื่อวนแต่ละ instruction
        
         int opcode = (state.mem[i] >> 22) & 0x7; //เอาส่วน opcode ออกมาจาก machine code
         
-        count++; //ทำ instructions executed แต่ละครั้ง count จะเพิ่มทีละ 1
-        if (strcmp(input, "y\n") == 0 || strcmp(input, "Y\n") == 0) { // ตรวจสอบข้อมูลที่ป้อน   
-        // if (1) {
-            if(opcode == 2){   // ถ้า opcode = 2 ทำ lw instruction
-                printf("\nLw");
-            }
-            else if(opcode == 0){ // ถ้า opcode = 0 ทำ Add instruction
-                printf("\nAdd");
-            }
-            else if(opcode == 4){ // ถ้า opcode = 4 ทำ Beq instruction
-                printf("\nBeq");
-            }else if(opcode == 6){ // ถ้า opcode = 6 ทำ halt instruction
-                printf("\nmachine halted");
-            }else if(opcode == 7){ // ถ้า opcode = 7 ไม่ต้องทำอะไร
-                printf("\nnoop");
-            }else if(opcode == 1){ // ถ้า opcode = 1 ทำ Nand instruction
-                printf("\nNand");
-            }else if(opcode == 3){ // ถ้า opcode = 3 ทำ sw instruction
-                printf("\nSw");
-            }else if(opcode == 5){ // ถ้า opcode = 5 ทำ Jalr instruction
-                printf("\nJalr");
-            }
+        count++; //ทำ instructions executed แต่ละครั้ง count จะเพิ่มทีละ 1   
             printState(&state); // printstate ก่อนทำ instruction ต่างๆ
             
             if(opcode == 2){   // ถ้า opcode = 2 ทำ lw instruction
@@ -112,11 +90,6 @@ int main(int argc, char *argv[])
             }
             
             state.pc++; // pc+1
-        }else {
-            break;
-        }
-        printf("Enter 'yes' to continue: "); //เอาไว้ check
-        fgets(input, sizeof(input), stdin); //เอาไว้ check
 
     }
     return(0);

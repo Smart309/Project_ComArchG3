@@ -1,31 +1,31 @@
-lw 0 1  begin_result
-        lw 0 2 mcand
-        lw 0 3 mer
-        lw 0 6 pos1
-        sw 7 2 stack
-        add 7 6 7
-        sw 7 3 stack
-        add 7 6 7
-        lw 0 4 pos1
-        beq 0 2 exit
-        beq 0 3 exit
-multiply nand 3 4 6
-        beq 0 6 zero
-        beq 0 0 update
-zero    add 2 1 1
-update  add  2 2 2
-        add 4 4 4
-        lw 0 5 checkExit
-        beq 5 4 exit
-        beq 0 0 multiply
-exit    lw 0 6 neg1
-        add 7 6 7
-        lw 7 3 stack
-        add 7 6 7
-        lw 7 2 stack
-        halt
+lw 0 1  begin_result    โหลดค่า begin_result ไปไว้ที่ r1
+        lw 0 2 mcand    โหลดค่า mcand ไปไว้ที่ r2
+        lw 0 3 mplier      โหลดค่า begin_result ไปไว้ที่ r1
+        lw 0 6 pos1     โหลดค่า pos1(ซึ่งค่าคือ 1) ไปที่ r6 เพื่อใช้ในการเช็คเงื่อนไข
+        sw 7 2 stack    เก็บค่าของ r2(mcand) ลงใน stack
+        add 7 6 7       เพิ่มค่าใน stack ด้วย r6(1) และเก็บค่าใน stack
+        sw 7 3 stack    บันทึกค่าใน R3 ลงใน stack
+        add 7 6 7       เพิ่มค่าใน stack ด้วย R6 และเก็บค่าใน stack
+        lw 0 4 pos1     โหลดค่า pos1 และเก็บใน R4
+        beq 0 2 exit    ถ้า R2 เท่ากับ 0 ให้ไปที่ exit
+        beq 0 3 exit    ถ้า R3 เท่ากับ 0 ให้ไปที่ exit
+multiply nand 3 4 6     R3 (mplier) nand R4 (pos1) และเก็บผลลัพธ์ใน R6
+        beq 0 6 zero    ถ้า R6 == 0 ให้ไปที่ zero
+        beq 0 0 update  ถ้า R0 == 0 ให้ไปที่ update
+zero    add 2 1 1       เพิ่มค่าใน R2 ด้วย R1
+update  add  2 2 2      บวกตัวมันเองเพื่อนขยับ bit
+        add 4 4 4       บวกตัวมันเองเพื่อนขยับ bit
+        lw 0 5 checkExit        โหลดค่า checkExit และเก็บใน R5
+        beq 5 4 exit    ถ้า R5 เท่ากับ R4 ให้ไปที่ exit
+        beq 0 0 multiply        ถ้า R0 เท่ากับ 0 ให้ไปที่ exit
+exit    lw 0 6 neg1    โหลดค่า neg1(-1) และเก็บใน R6
+        add 7 6 7       เพิ่มค่าใน R7 ด้วย R6
+        lw 7 3 stack    โหลดค่าใน stack และเก็บใน R3
+        add 7 6 7       เพิ่มค่าใน R7 ด้วย R6
+        lw 7 2 stack    โหลดค่าใน stack และเก็บใน R2
+        halt    หยุดการทำงาน
 mcand   .fill 15
-mer     .fill 3
+mplier     .fill 3
 checkExit .fill 65536
 pos1    .fill 1
 neg1    .fill -1
