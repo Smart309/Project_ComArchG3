@@ -1,25 +1,22 @@
-        lw 0 1 begin_result
+lw 0 1  begin_result
         lw 0 2 mcand
         lw 0 3 mer
         lw 0 4 pos1
-        beq 0 2 14
-        beq 0 3 13
+        beq 0 2 exit
+        beq 0 3 exit
 multiply nand 3 4 6
-        beq 0 6 2
-        beq 0 0 3
-zero    noop
-        add 2 1 1
-update  noop
-        add  2 2 2
+        beq 0 6 zero
+        beq 0 0 update
+zero    add 2 1 1
+update  add  2 2 2
         add 4 4 4
         lw 0 5 checkExit
-        beq 5 4 2
+        beq 5 4 exit
         beq 0 0 multiply
-        noop
 exit    halt
-mcand   .fill 32766
-mer     .fill 10383
-checkExit .fill 32768
+mcand   .fill 100
+mer     .fill 100
+checkExit .fill 2147483648
 pos1    .fill 1
 neg1    .fill -1
 begin_result .fill 0
