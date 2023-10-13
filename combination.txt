@@ -1,45 +1,50 @@
-main:
- addi a1,a1,7  #n
- addi a0,a0,3  #r
- addi a7,a7,0 #zero
- addi a5,a5,0 #result
- addi sp,sp,-4
- addi a6,a6,-1  #stack end
- sw a6,0(sp)
-
-combination:
-
-beq a0,a7,basecase
-beq a1,a0,basecase
-
-combination2:    #(n-1,r-1)
-addi a1,a1,-1
-addi a0,a0,-1
-addi sp,sp,-4
-sw a0,0(sp)
-addi sp,sp,-4
-sw a1,0(sp)
-jal combination1
-
-
-
-combination1:    #(n-1,r)
-addi a0,a0,1
-beq a0,a7,basecase
-beq a1,a0,basecase
-jal combination2
-
-
-
-basecase:
- lw a3, 0(sp)
-beq a6,a3,done
- addi a5,a5,1
- lw a1, 0(sp)
- addi sp,sp,4
- lw a0, 0(sp)
- addi sp,sp,4
- jal combination
-
-done:
-addi a5,a5,1
+main lw 0 1 n  #reg[1] = n
+ lw 0 2 r  #reg[2] = r
+ lw 0 3 result #result
+ lw 0 6 pos1 #reg[6] = 1
+ lw 0 4 neg1 #reg[4] = -1
+ sw 5 1 stack #n to stack+reg[5]
+ add 5 6 5 #Increase the stack size and wait
+ sw 5 2 stack #r to stack+reg[5]
+ add 5 6 5 #Increase the stack size and wait.
+ sw 5 4 stack #-1 to stack for stack end
+ add 5 6 5 #Increase the stack size and wait.
+ lw 0 6 funcCom #reg[6] = address of combination
+ jalr 6 7 #jump to combination
+exit halt
+combination lw 0 6 pos1 #reg[6] = 1
+ beq 0 2 basecase #r == 0
+ beq 1 2 basecase #r == n
+ add 1 4 1 #n = n - 1
+ add 2 4 2 #r = r - 1
+ sw 5 2 stack # r to stack+reg[5]
+ add 5 6 5 #Increase the stack size and wait.
+ sw 5 1 stack #n to stack+reg[5]
+ add 5 6 5 #Increase the stack size and wait.
+ add 2 6 2 #r = r + 1
+ lw 0 6 funcCom #reg[6] = address of combination
+ jalr 6 7 #jump to combination
+basecase add 5 4 5 #clear 1 stack
+ lw 5 6 stack #pop stack+reg[5] to reg[6]
+ beq 4 6 done #reg[6] == -1
+ lw 0 6 pos1 #reg[6] = 1
+ add 3 6 3 #result = result + 1
+ lw 5 1 stack #stack+reg[5] to n
+ add 5 4 5 #clear 1 stack 
+ lw 5 2 stack #stack+reg[5] to r
+ lw 0 6 funcCom #reg[6] = address of combination
+ jalr 6 7 #jump to combination
+done lw 0 6 pos1 #reg[6] = 1
+ add 3 6 3 #result = result + 1
+ add 5 4 5 #clear 1 stack
+ lw 5 2 stack #return input r
+ add 5 4 5 #clear 1 stack
+ lw 5 1 stack #return input n
+ beq 0 0 exit
+funcCom .fill combination
+n .fill 7
+r .fill 3
+result .fill 0
+pos1 .fill 1
+neg1 .fill -1
+stack .fill 0
