@@ -1,6 +1,11 @@
 lw 0 1  begin_result
         lw 0 2 mcand
         lw 0 3 mer
+        lw 0 6 pos1
+        sw 7 2 stack
+        add 7 6 7
+        sw 7 3 stack
+        add 7 6 7
         lw 0 4 pos1
         beq 0 2 exit
         beq 0 3 exit
@@ -13,10 +18,15 @@ update  add  2 2 2
         lw 0 5 checkExit
         beq 5 4 exit
         beq 0 0 multiply
-exit    halt
-mcand   .fill 100
-mer     .fill 100
-checkExit .fill 2147483648
+exit    lw 0 6 neg1
+        add 7 6 7
+        lw 7 3 stack
+        add 7 6 7
+        lw 7 2 stack
+        halt
+mcand   .fill 15
+mer     .fill 3
+checkExit .fill 65536
 pos1    .fill 1
 neg1    .fill -1
 begin_result .fill 0
